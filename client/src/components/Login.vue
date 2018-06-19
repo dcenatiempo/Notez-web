@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Login</h1>
     Email
     <input
       type='email'
@@ -17,6 +16,8 @@
 
 <script>
 import axios from 'axios'
+import { mapMutations } from 'vuex'
+import router from '../router'
 export default {
   // export name??
   name: 'Login',
@@ -24,7 +25,6 @@ export default {
   // props
   data () {
     return {
-      // props
       email: '',
       password: ''
     }
@@ -32,16 +32,20 @@ export default {
 
   // methods
   methods: {
+    ...mapMutations(['LOGIN', 'HIDE_MODAL']),
     login (e) {
       axios({
         method: 'post',
-        url: 'http://localhost:3000/api/user/login',
+        url: '/api/user/login',
         data: {
           'email': this.email,
           'password': this.password
         }
       }).then((response) => {
         console.log(response)
+        this.LOGIN()
+        this.HIDE_MODAL('Login')
+        router.push('dashboard')
       }).catch((error) => {
         console.log(error)
       })

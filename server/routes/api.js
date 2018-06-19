@@ -3,8 +3,8 @@ var router = express.Router();
 
 var db = require('../queries');
 
-router.post('/user/login', db.getUser);
-router.post('/user/register', db.createUser);
+router.post('/user/login', db.loginUser);
+router.post('/user/register', db.registerUser);
 router.post('/user/logout', db.logoutUser);
 // router.patch('/user/:userId', db.updateUser);
 router.delete('/user/:userId', db.deleteUser);

@@ -8,9 +8,15 @@ var pgp = require('pg-promise')(options);
 var connectionString = 'postgres://localhost:5432/notez';
 var db = pgp(connectionString);
 
-// add query functions
-function createUser(req, res, next) {
-  // gather request data
+/*******************************************************************************
+ * Register User
+ * -----------------------------------------------------------------------------
+ * Params: None
+ * Body: email, password
+ * Success: email, id
+ * Failure: 
+ ******************************************************************************/
+function registerUser(req, res, next) {
   let email = req.body.email;
   let password = req.body.password;
 
@@ -32,17 +38,27 @@ function createUser(req, res, next) {
     .then( () => {
       res.status(200)
         .json({
-          status: 'success',
-          message: 'Inserted new user'
+          email: email,
+          id: req.session.userId
         });
     })
     .catch( (err) => {
-      return next(err);
+      res.status(400)
+        .json({
+          error: `User with email: ${email} already registered`
+        });
     });
 }
 
-function getUser(req, res, next) {
-  // gather request data
+/*******************************************************************************
+ * Login User
+ * -----------------------------------------------------------------------------
+ * Params: None
+ * Body: email, password
+ * Success: ?
+ * Failure: ?
+ ******************************************************************************/
+function loginUser(req, res, next) {
   let email = req.body.email;
   let password = req.body.password;
 
@@ -58,10 +74,9 @@ function getUser(req, res, next) {
       salt = result.data.salt;
       hash = result.data.hash;
 
-      console.log(salt)
       let authenticated = hash === getHash(salt, password);
       if (authenticated) {
-        // req.session.id = id;
+        req.session.userId = id;
         res.send("Logged In!")
       }
       else {
@@ -75,12 +90,21 @@ function getUser(req, res, next) {
 
 }
 
+/*******************************************************************************
+ * Logout User
+ * -----------------------------------------------------------------------------
+ * Params: None
+ * Body: None
+ * Success: ?
+ * Failure: ?
+ ******************************************************************************/
 function logoutUser(req, res, next) {
   console.log(req.cookie)
   if (req.sessionID) {
-    // req.session.destroy(req.sessionID);
-    // res.clearCookie("key");
-    res.send("session deleted");
+    req.session.destroy( () => {
+      res.status(200)
+         .json({'session': 'logged out'});
+    });
   }
   else {
     res.send("already logged out!");
@@ -88,6 +112,14 @@ function logoutUser(req, res, next) {
 
 }
 
+/*******************************************************************************
+ * Delete User
+ * -----------------------------------------------------------------------------
+ * Params: userId
+ * Body: None
+ * Success: ?
+ * Failure: ?
+ ******************************************************************************/
 function deleteUser(req, res, next) {
   // gather request data
   let userId = parseInt(req.params.userId);
@@ -106,8 +138,8 @@ function deleteUser(req, res, next) {
 }
 
 module.exports = {
-  createUser: createUser,
-  getUser: getUser,
+  registerUser: registerUser,
+  loginUser: loginUser,
   logoutUser: logoutUser,
   // updateUser: updateUser,
   deleteUser: deleteUser,

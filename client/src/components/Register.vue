@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Register</h1>
     Email
     <input
       type='email'
@@ -47,7 +46,7 @@ export default {
     register (e) {
       axios({
         method: 'post',
-        url: 'http://localhost:3000/api/user/register',
+        url: '/api/user/register',
         data: {
           'email': this.email,
           'password': this.password
