@@ -43,7 +43,7 @@ function registerUser(req, res, next) {
         });
     })
     .catch( (err) => {
-      res.status(400)
+      res.status(401)
         .json({
           error: `User with email: ${email} already registered`
         });
@@ -70,6 +70,7 @@ function loginUser(req, res, next) {
   let hash;
   db.one('SELECT id, data FROM public."user" WHERE email=$1', [email])
     .then( (result) => {
+      console.log(result)
       id = parseInt(result.id);
       salt = result.data.salt;
       hash = result.data.hash;
@@ -77,15 +78,17 @@ function loginUser(req, res, next) {
       let authenticated = hash === getHash(salt, password);
       if (authenticated) {
         req.session.userId = id;
-        res.send("Logged In!")
+        res.status(200)
+           .json({'UserId': id})
       }
       else {
-        res.send("bad password")
+        res.status(401)
+           .json({'error': 'Incorrect Password'})
       }
     })
     .catch(function (err) {
-      // TODO: if no results I need to give warning & redirect or something
-      return next(err);
+      res.status(401)
+         .json({'error': 'User Does Not Exist'})
     });
 
 }

@@ -32,7 +32,7 @@ export default {
       this.$emit('open-register-modal')
     }
   },
-  beforeCreate () {
+  created () {
     if (this.isLoggedIn) {
       router.push('dashboard')
     }

@@ -6,7 +6,9 @@
           <h1>{{title}}</h1>
           <button @click='close'>X</button>
         </header>
-        <slot @close-modal='close'>Body</slot>
+        <main>
+          <slot>Body</slot>
+        </main>
         <footer><slot name="header"></slot></footer>
       </div>
     </div>
@@ -45,6 +47,7 @@ export default {
     close (e) {
       console.log('close me')
       this.HIDE_MODAL(this.title)
+      this.$emit('modal-closed')
     },
     open (e) {
       console.log('open me')
@@ -83,6 +86,10 @@ export default {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    padding: 1em 0 0 1em;
+  }
+  .modal header h1 {
+    margin: 0;
   }
   .modal header > button {
     position: absolute;
@@ -92,6 +99,7 @@ export default {
     background: transparent;
     padding: 10px;
     font-size: 1.5em;
+    color: #2c3e50;
   }
   .modal > .modal-content {
     position: absolute;
@@ -100,7 +108,32 @@ export default {
     transform: translate(-50%, -50%);
     width: 50%;
     min-width: 320px;
-    height: 50%;
-    background-color: aquamarine;
+    background-color: white;
+    border-radius: .5em;
+  }
+  .modal main {
+    padding: 1em;
+  }
+  .modal input {
+    font-size: 1em;
+    padding: .5em;
+    border: none;
+    background: #f7f7f7;
+  }
+  .modal button {
+    grid-column: 2;
+  }
+  .modal-content main .register,
+  .modal-content main .login {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    grid-gap: .5em;
+    align-items: center;
+  }
+  .modal .warning {
+    grid-column: 1/3;
+    background: pink;
+    color: red;
+    padding: .4em;
   }
 </style>

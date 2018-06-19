@@ -1,39 +1,50 @@
 <template>
-  <div>
-    Email
+  <form class='login'>
+    <div v-bind:show='isWarning(warning)' class='warning'>{{warning}}</div>
+    <span>Email</span>
     <input
+      required
       type='email'
       name='email'
       v-model='email'>
-    Password
+    <span>Password</span>
     <input
+      required
       type='password'
       name='password'
       v-model='password'>
     <button v-on:click='login'>Login</button>
-  </div>
+  </form>
 </template>
 
 <script>
 import axios from 'axios'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import router from '../router'
 export default {
-  // export name??
   name: 'Login',
 
-  // props
+  computed: mapState({
+    'loginModalState': state => state.showModal.Login
+  }),
+
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      warning: ''
     }
   },
 
-  // methods
   methods: {
     ...mapMutations(['LOGIN', 'HIDE_MODAL']),
     login (e) {
+      e.preventDefault()
+      let form = document.querySelector('form.login')
+      if (!form.checkValidity()) {
+        form.reportValidity()
+        return
+      }
       axios({
         method: 'post',
         url: '/api/user/login',
@@ -42,24 +53,37 @@ export default {
           'password': this.password
         }
       }).then((response) => {
-        console.log(response)
-        this.LOGIN()
-        this.HIDE_MODAL('Login')
-        router.push('dashboard')
+        console.log(response.data)
+        if (response.status === 200) {
+          this.LOGIN()
+          this.HIDE_MODAL('Login')
+          router.push('dashboard')
+        }
       }).catch((error) => {
-        console.log(error)
+        this.warning = error.response.data.error
       })
+    },
+    isWarning (warning) {
+      if (warning === '') {
+        return 'false'
+      }
+      return 'true'
+    },
+    resetForm () {
+      this.email = ''
+      this.password = ''
+      this.warning = ''
     }
   },
 
-  // observer functions??
   watch: {
-    email (value) {
-      console.log(value)
+    loginModalState (value) {
+      if (value === 'false') {
+        this.resetForm()
+      }
     }
   },
 
-  // lifecyle method
   mounted () {}
 }
 </script>

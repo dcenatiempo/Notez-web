@@ -21,7 +21,7 @@ export default {
 
   watch: {},
 
-  beforeCreate () {
+  created () {
     if (!this.isLoggedIn) {
       router.push('/')
     }
