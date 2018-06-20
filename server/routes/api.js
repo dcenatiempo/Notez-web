@@ -3,6 +3,7 @@ var router = express.Router();
 
 var db = require('../queries');
 
+router.get('/user/check-login', db.checkLogin);
 router.post('/user/login', db.loginUser);
 router.post('/user/register', db.registerUser);
 router.post('/user/logout', db.logoutUser);

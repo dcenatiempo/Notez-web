@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    email: null,
     isLoggedIn: false,
     showModal: {'Login': 'false', 'Register': 'false'}
   },
@@ -12,8 +13,9 @@ export default new Vuex.Store({
     LOGOUT (state) {
       state.isLoggedIn = false
     },
-    LOGIN (state) {
+    LOGIN (state, payload) {
       state.isLoggedIn = true
+      state.email = payload
     },
     HIDE_MODAL (state, payload) {
       console.log(payload)

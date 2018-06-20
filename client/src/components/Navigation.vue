@@ -2,7 +2,7 @@
   <nav class="main-nav">
     <h1>Notez</h1>
     <ul v-if='isLoggedIn'>
-      <li>dcenatiempo@gmail.com</li>
+      <li>{{email}}</li>
       <li><button class='link' @click='logout'>Logout</button></li>
     </ul>
   </nav>
@@ -15,7 +15,7 @@ import router from '../router'
 export default {
   name: 'Navigation',
   computed: mapState([
-    'isLoggedIn'
+    'isLoggedIn', 'email'
   ]),
   // props
   data () {

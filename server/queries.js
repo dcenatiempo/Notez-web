@@ -9,6 +9,28 @@ var connectionString = 'postgres://localhost:5432/notez';
 var db = pgp(connectionString);
 
 /*******************************************************************************
+ * Check Login
+ * -----------------------------------------------------------------------------
+ * Params: None (cookie)
+ * Body: None
+ * Success: 
+ * Failure: 
+ ******************************************************************************/
+function checkLogin(req, res, next) {
+  console.log(req.session)
+  if (req.session.userId) {
+    res.status(200)
+       .json({
+         email: req.session.email,
+         id: req.session.userId
+    });
+  }
+  else {
+    res.status(401)
+    .json({"loggedId": 'false'})
+  }
+}
+/*******************************************************************************
  * Register User
  * -----------------------------------------------------------------------------
  * Params: None
@@ -32,15 +54,14 @@ function registerUser(req, res, next) {
 
   db.one('insert into public."user" (email, data) values($1, $2) RETURNING id;', [email, data])
     .then( (id) => {
-      // session/cookie stuff
+      // set session/cookie info
       req.session.userId = id;
-    })
-    .then( () => {
+      req.session.email = email;
       res.status(200)
-        .json({
-          email: email,
-          id: req.session.userId
-        });
+         .json({
+           email: email,
+           id: req.session.userId
+      });
     })
     .catch( (err) => {
       res.status(401)
@@ -77,9 +98,14 @@ function loginUser(req, res, next) {
 
       let authenticated = hash === getHash(salt, password);
       if (authenticated) {
+        // set session/cookie info
         req.session.userId = id;
+        req.session.email = email;
         res.status(200)
-           .json({'UserId': id})
+           .json({
+             email: email,
+             id: req.session.userId
+        });
       }
       else {
         res.status(401)
@@ -141,6 +167,7 @@ function deleteUser(req, res, next) {
 }
 
 module.exports = {
+  checkLogin: checkLogin,
   registerUser: registerUser,
   loginUser: loginUser,
   logoutUser: logoutUser,

@@ -6,8 +6,35 @@
 </template>
 
 <script>
+import axios from 'axios'
+import router from './router'
+import { mapMutations, mapState } from 'vuex'
 export default {
-  name: 'App'
+  name: 'App',
+
+  computed: mapState({
+    'loginModalState': state => state.showModal.Login
+  }),
+
+  methods: {
+    ...mapMutations(['LOGIN', 'HIDE_MODAL'])
+  },
+
+  beforeCreate () {
+    console.log('creating app!!!!!!!!!!!!!')
+    axios({
+      method: 'get',
+      url: '/api/user/check-login'
+    }).then((response) => {
+      if (response.status === 200) {
+        this.LOGIN(response.data.email)
+        router.push('dashboard')
+      }
+    }).catch((err) => {
+      return err
+      // console.log(err)
+    })
+  }
 }
 </script>
 

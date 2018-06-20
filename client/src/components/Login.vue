@@ -55,7 +55,7 @@ export default {
       }).then((response) => {
         console.log(response.data)
         if (response.status === 200) {
-          this.LOGIN()
+          this.LOGIN(response.data.email)
           this.HIDE_MODAL('Login')
           router.push('dashboard')
         }
