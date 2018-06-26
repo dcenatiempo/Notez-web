@@ -21,10 +21,9 @@ export default {
   },
 
   beforeCreate () {
-    console.log('creating app!!!!!!!!!!!!!')
     axios({
       method: 'get',
-      url: '/api/user/check-login'
+      url: '/api/user/session'
     }).then((response) => {
       if (response.status === 200) {
         this.LOGIN(response.data.email)
@@ -32,7 +31,6 @@ export default {
       }
     }).catch((err) => {
       return err
-      // console.log(err)
     })
   }
 }

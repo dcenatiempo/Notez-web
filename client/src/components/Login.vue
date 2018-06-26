@@ -47,13 +47,12 @@ export default {
       }
       axios({
         method: 'post',
-        url: '/api/user/login',
+        url: '/api/user/session',
         data: {
           'email': this.email,
           'password': this.password
         }
       }).then((response) => {
-        console.log(response.data)
         if (response.status === 200) {
           this.LOGIN(response.data.email)
           this.HIDE_MODAL('Login')

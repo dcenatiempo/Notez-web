@@ -3,17 +3,29 @@ var router = express.Router();
 
 var db = require('../queries');
 
-router.get('/user/check-login', db.checkLogin);
-router.post('/user/login', db.loginUser);
-router.post('/user/register', db.registerUser);
-router.post('/user/logout', db.logoutUser);
-// router.patch('/user/:userId', db.updateUser);
-router.delete('/user/:userId', db.deleteUser);
+router.use( (req, res, next) => {
+  // TODO: I would like to check to see if user is logged in, if not, end response
+  console.log('Time: ', Date.now());
+  if (true) {//logged in
+    next();
+  } else {
+    res.end();
+  }
+});
 
-// router.get('/notebook/:userId', db.getAllUserNotebooks);
-// router.post('/notebook/:userId', db.createNotebook);
-// router.patch('/notebook/:notebookId', db.updateNotebook);
-// router.delete('/notebook/:notebookId', db.deleteNotebook);
+
+
+router.get('/user/session', db.checkLogin);
+router.post('/user/session', db.loginUser);
+router.delete('/user/session', db.logoutUser);
+router.post('/user', db.registerUser);
+router.patch('/user', db.updateUser);
+router.delete('/user', db.deleteUser);
+
+router.get('/notebook', db.getAllUserNotebooks);
+router.post('/notebook', db.createNotebook);
+router.patch('/notebook/:notebookId', db.updateNotebook);
+router.delete('/notebook/:notebookId', db.deleteNotebook);
 
 // router.get('/note/:userId', db.getAllUserNotes);
 // router.get('/note/:notebookId', db.getAllNotebookNotes);

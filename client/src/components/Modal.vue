@@ -45,12 +45,10 @@ export default {
   methods: {
     ...mapMutations(['HIDE_MODAL', 'SHOW_MODAL']),
     close (e) {
-      console.log('close me')
       this.HIDE_MODAL(this.title)
       this.$emit('modal-closed')
     },
     open (e) {
-      console.log('open me')
       this.SHOW_MODAL(this.title)
     }
   },

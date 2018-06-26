@@ -18,11 +18,9 @@ export default new Vuex.Store({
       state.email = payload
     },
     HIDE_MODAL (state, payload) {
-      console.log(payload)
       state.showModal[payload] = 'false'
     },
     SHOW_MODAL (state, payload) {
-      console.log(payload)
       state.showModal[payload] = 'true'
     }
   },

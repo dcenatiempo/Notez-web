@@ -28,14 +28,13 @@ export default {
     ...mapMutations(['LOGOUT']),
     logout () {
       axios({
-        method: 'post',
-        url: '/api/user/logout'
+        method: 'delete',
+        url: '/api/user/session'
       }).then((response) => {
-        console.log(response.data)
         this.LOGOUT()
         router.push('/')
-      }).catch((error) => {
-        console.log(error)
+      }).catch((err) => {
+        console.log(err)
       })
     }
   },

@@ -28,7 +28,6 @@ export default {
   ]),
   methods: {
     openRegister () {
-      console.log('open the register modal')
       this.$emit('open-register-modal')
     }
   },

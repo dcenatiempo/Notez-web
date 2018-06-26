@@ -8,7 +8,6 @@ const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
 
 var app = express();
@@ -41,7 +40,6 @@ if (app.get('env') === 'production') {
 app.use(session(sess))
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
