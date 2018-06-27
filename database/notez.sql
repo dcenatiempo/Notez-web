@@ -37,7 +37,7 @@ ALTER TABLE ONLY public.note
 ALTER TABLE ONLY public.note
     ADD CONSTRAINT note_userid_fkey FOREIGN KEY (userid) REFERENCES public."user"(id);
 ALTER TABLE ONLY public.note
-    ADD CONSTRAINT note_notebookid_fkey FOREIGN KEY (notebookid) REFERENCES public.notebook(id);
+    ADD CONSTRAINT note_notebookid_fkey FOREIGN KEY (notebookid) REFERENCES public.notebook(id) ON DELETE CASCADE;
 
 CREATE TABLE public."session" (
     "sid" VARCHAR          NOT NULL COLLATE "default"

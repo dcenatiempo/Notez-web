@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const validator = require('email-validator');
 let util = {};
 
 util.getSalt = () => {
@@ -13,5 +14,7 @@ util.getHash = (salt, password) => {
   var value = hash.digest('hex');
   return value;
 }
+
+util.isEmailValid = validator.validate;
 
 module.exports = util;
