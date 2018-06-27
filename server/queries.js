@@ -1,17 +1,10 @@
+require('dotenv').config();
 const {isEmailValid, getSalt, getHash} = require('./util');
 
-var options = {
-  // Initialization Options
-};
+var options = {/* Initialization Options*/};
 
 var pgp = require('pg-promise')(options);
-// var connectionString = 'postgres://localhost:5432/notez';
-const config = {
-  host: 'localhost',
-  port: 5432,
-  database: 'notez'
-};
-var db = pgp(config);
+var db = pgp(process.env.DATABASE_URL);
 
 /*******************************************************************************
  * Check Login

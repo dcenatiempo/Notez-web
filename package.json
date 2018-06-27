@@ -1,0 +1,18 @@
+{
+  "name": "notez-markup",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "heroku-postbuild": "npm run build-client && npm run install-server",
+    "start": "node ./server/bin/www",
+    "build-client": "cd ./client && npm install && npm run build",
+    "install-server": "cd ./server && npm install"
+  },
+  "engines": {
+    "node": ">= 6.0.0"
+  },
+  "cacheDirectories": [
+    "client/node_modules",
+    "server/node_modules"
+  ]
+}
