@@ -19,8 +19,7 @@ function checkLogin(req, res, next) {
     res.status(200)
        .json({
          'loggedIn': true,
-         'email': req.session.email,
-         'id': req.session.userId });
+         'email': req.session.email});
   } else {
     res.status(401)
        .json({ 'loggedIn': false })
@@ -495,6 +494,7 @@ function updateNote(req, res, next) {
   let params = req.params;
   let noteId = parseInt(params.noteId);
   let body = req.body;
+  console.log(body)
 
   let notebookId;
 
@@ -514,6 +514,7 @@ function updateNote(req, res, next) {
       data.lastUpdated = data.dateCreated;
       data.title = body.title;
       data.content = body.content;
+      console.log(data)
 
       return db.one('UPDATE public.note SET data = $1, notebookid = $2 WHERE id = $3 AND userid = $4 RETURNING id, data, notebookid;', [data, notebookId, noteId, userId]);
     }).then((result) => {

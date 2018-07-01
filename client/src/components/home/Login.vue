@@ -1,5 +1,5 @@
 <template>
-  <form class='register'>
+  <form class='login'>
     <div v-bind:show='isWarning(warning)' class='warning'>{{warning}}</div>
     <span>Email</span>
     <input
@@ -7,60 +7,49 @@
       type='email'
       name='email'
       v-model='email'>
-    <span>Confirm Email</span>
-    <input
-      required
-      type='email'
-      name='emailCheck'
-      v-model='emailCheck'>
     <span>Password</span>
     <input
       required
       type='password'
       name='password'
       v-model='password'>
-    <span>Confirm Password</span>
-    <input
-      required
-      type='password'
-      name='passwordCheck'
-      v-model='passwordCheck'>
-    <button v-on:click='register'>Register</button>
+    <button v-on:click='login'>Login</button>
   </form>
 </template>
 
 <script>
 import axios from 'axios'
-import router from '../router'
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
+import router from '@/router'
 export default {
-  name: 'Register',
+  name: 'Login',
 
-  computed: mapState({
-    'registerModalState': state => state.showModal.Register
-  }),
+  computed: {
+    ...mapState({
+      'loginModalState': state => state.modalList.login
+    })
+  },
 
   data () {
     return {
       email: '',
-      emailCheck: '',
       password: '',
-      passwordCheck: '',
       warning: ''
     }
   },
 
   methods: {
-    register (e) {
+    ...mapMutations(['LOGIN', 'HIDE_MODAL']),
+    login (e) {
       e.preventDefault()
-      let form = document.querySelector('form.register')
+      let form = document.querySelector('form.login')
       if (!form.checkValidity()) {
         form.reportValidity()
         return
       }
       axios({
         method: 'post',
-        url: '/api/user',
+        url: '/api/user/session',
         data: {
           'email': this.email,
           'password': this.password
@@ -69,7 +58,7 @@ export default {
         if (response.status === 200) {
           this.LOGIN(response.data.email)
           this.HIDE_MODAL('Login')
-          router.push('dashboard')
+          router.push('/dashboard')
         }
       }).catch((error) => {
         this.warning = error.response.data.error
@@ -83,17 +72,14 @@ export default {
     },
     resetForm () {
       this.email = ''
-      this.emailCheck = ''
       this.password = ''
-      this.passwordCheck = ''
       this.warning = ''
     }
   },
 
   watch: {
-    registerModalState (value) {
+    loginModalState (value) {
       if (value === 'false') {
-        console.log('register hidden')
         this.resetForm()
       }
     }

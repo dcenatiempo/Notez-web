@@ -1,6 +1,6 @@
 <template>
-  <div v-bind:id='title'>
-    <div class='modal' v-bind:show='showModal[title]'>
+  <div v-bind:id='dataTitle'>
+    <div class='modal' v-bind:show='showModal'>
       <div class='modal-content'>
         <header>
           <h1>{{title}}</h1>
@@ -20,19 +20,10 @@
 import OpenModalBtn from './OpenModalBtn'
 import { mapState, mapMutations } from 'vuex'
 export default {
+  name: 'Modal',
+
   components: {
     'open-modal-btn': OpenModalBtn
-  },
-  computed: mapState([
-    'showModal'
-  ]),
-  name: 'Modal',
-  props: {
-    title: {
-      type: String,
-      required: false,
-      default: ''
-    }
   },
 
   // two way bindings
@@ -41,15 +32,40 @@ export default {
     }
   },
 
+  props: {
+    title: {
+      type: String,
+      required: true,
+      default: ''
+    }
+  },
+
+  computed: {
+    ...mapState(['modalList']),
+
+    dataTitle: function () {
+      return this.title.toLowerCase().split(' ').join('-')
+    },
+
+    showModal: function () {
+      console.log('showModal')
+      return this.modalList[this.dataTitle]
+    }
+
+  },
+
   // methods
   methods: {
     ...mapMutations(['HIDE_MODAL', 'SHOW_MODAL']),
     close (e) {
-      this.HIDE_MODAL(this.title)
-      this.$emit('modal-closed')
+      console.log('closing ' + this.dataTitle)
+      this.HIDE_MODAL(this.dataTitle)
+      console.log(this.modalList)
     },
     open (e) {
-      this.SHOW_MODAL(this.title)
+      console.log('opening ' + this.dataTitle)
+      this.SHOW_MODAL(this.dataTitle)
+      console.log(this.modalList)
     }
   },
 
@@ -58,7 +74,9 @@ export default {
 
   // lifecyle method
   mounted () {
+  },
 
+  created () {
   }
 }
 </script>

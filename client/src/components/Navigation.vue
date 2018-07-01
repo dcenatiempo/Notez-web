@@ -14,10 +14,11 @@ import { mapState, mapMutations } from 'vuex'
 import router from '../router'
 export default {
   name: 'Navigation',
-  computed: mapState([
-    'isLoggedIn', 'email'
-  ]),
-  // props
+
+  computed: {
+    ...mapState(['isLoggedIn', 'email'])
+  },
+
   data () {
     return {
     }

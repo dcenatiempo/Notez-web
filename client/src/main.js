@@ -3,9 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import Navigation from './components/Navigation'
-import Modal from './components/Modal'
-import Register from './components/Register'
-import Login from './components/Login'
+import Modal from './components/modal/Modal'
+import Register from './components/home/Register.vue'
+import Login from './components/home/Login'
 import router from './router'
 import store from './store'
 

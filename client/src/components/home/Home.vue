@@ -14,26 +14,35 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import router from '../router'
+import { mapState, mapMutations } from 'vuex'
+
+import router from '@/router'
 export default {
   name: 'Home',
+
+  created () {
+    if (this.isLoggedIn) {
+      router.push('/dashboard')
+    } else {
+      console.log('registering modals')
+      this.REGISTER_MODAL('Login')
+    }
+  },
+
   data () {
     return {
       // props
     }
   },
-  computed: mapState([
-    'isLoggedIn'
-  ]),
+
+  computed: {
+    ...mapState(['isLoggedIn'])
+  },
+
   methods: {
+    ...mapMutations(['REGISTER_MODAL', 'HIDE_MODAL', 'SHOW_MODAL']),
     openRegister () {
       this.$emit('open-register-modal')
-    }
-  },
-  created () {
-    if (this.isLoggedIn) {
-      router.push('dashboard')
     }
   }
 }

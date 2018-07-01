@@ -24,7 +24,7 @@ CREATE TABLE public.notebook (
 ALTER TABLE ONLY public.notebook
     ADD CONSTRAINT notebook_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.notebook
-    ADD CONSTRAINT notebook_userid_fkey FOREIGN KEY (userid) REFERENCES public."user"(id);
+    ADD CONSTRAINT notebook_userid_fkey FOREIGN KEY (userid) REFERENCES public."user"(id) ON DELETE CASCADE;
 
 CREATE TABLE public.note (
      id          SERIAL       NOT NULL

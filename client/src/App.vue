@@ -8,13 +8,11 @@
 <script>
 import axios from 'axios'
 import router from './router'
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   name: 'App',
 
-  computed: mapState({
-    'loginModalState': state => state.showModal.Login
-  }),
+  computed: {},
 
   methods: {
     ...mapMutations(['LOGIN', 'HIDE_MODAL'])
@@ -27,7 +25,7 @@ export default {
     }).then((response) => {
       if (response.status === 200) {
         this.LOGIN(response.data.email)
-        router.push('dashboard')
+        router.push('/dashboard')
       }
     }).catch((err) => {
       return err
@@ -61,5 +59,14 @@ button.link {
   color: dodgerblue;
   cursor: pointer;
   padding: 0;
+}
+button.icon {
+  height: 30px;
+  width: 30px;
+  color: dodgerblue;
+  border: 1px solid dodgerblue;
+  background: white;
+  padding: 0px;
+  border-radius: 50%;
 }
 </style>
