@@ -1,62 +1,18 @@
 <template>
   <div class="dashboard">
-    <h1>Dashboard</h1>
-    <section v-if='currentNotebookIndex === -1' class='notebooks'>
-      <ul>
-        <li v-for='notebook in notebooks' :key='notebook.id'>
-          <button class='link'
-            v-bind:notebookid='notebook.id'
-            v-on:click='openNotebook'>
-            {{notebook.data.title}} ({{noteCount(notebook.id)}}) Notes
-          </button>
-          <button class="icon"
-            v-bind:notebookid='notebook.id'
-            v-on:click='deleteNotebook'>
-            x
-          </button>
-        </li>
-      </ul>
-      <notez-modal :title="'Add Notebook'">
-        <add-notebook></add-notebook>
-      </notez-modal>
-    </section>
-    <section v-else-if='currentNoteIndex === -1' class='notes'>
-      <button class='link'
-        v-on:click='resetNotebooks'>
-        back
-      </button>
-      <h2>{{currentNotebook.data.title}}</h2>
-      <ul>
-        <li v-for='note in currentNotes' :key='note.id'>
-          <button class='link'
-            v-bind:noteid='note.id'
-            v-on:click='openNote'>
-            {{note.data.title}}
-          </button>
-          <button class="icon"
-            v-bind:noteid='note.id'
-            v-on:click='deleteNote'>
-            x
-          </button>
-        </li>
-      </ul>
-      <notez-modal :title="'Add Note'">
-        <add-note v-bind:notebookId='currentNotebookIndex'></add-note>
-      </notez-modal>
-    </section>
-    <section v-else class='notes'>
-      <button class='link'
-        v-on:click='resetNotes'>
-        back
-      </button>
-      <h2>{{currentNotebook.data.title + ": " + currentNote.data.title}}</h2>
-      <textarea
-        v-model='currentNote.data.content'
-        v-on:change='saveNote'
-        @input='markItUp'></textarea>
-      <div class='markup'>
-      </div>
-    </section>
+    <notebook-list  v-if='currentTab === "main"'>
+    </notebook-list>
+    <note-list v-else-if='currentTab === "notebook"'>
+    </note-list>
+    <note v-else>
+    </note>
+    <toolbar></toolbar>
+    <notez-modal :title="'Add Notebook'">
+      <add-notebook></add-notebook>
+    </notez-modal>
+    <notez-modal :title="'Add Note'">
+      <add-note></add-note>
+    </notez-modal>
   </div>
 </template>
 
@@ -67,16 +23,26 @@ import { mapState, mapMutations } from 'vuex'
 import router from '@/router'
 import AddNotebook from './AddNotebook'
 import AddNote from './AddNote'
+import Toolbar from '@/components/toolbar/Toolbar'
+import NotebookList from './NotebookList'
+import NoteList from './NoteList'
+import Note from './Note'
+import Modal from '@/components/modal/Modal'
 export default {
   name: 'Dashboard',
 
   components: {
     'add-notebook': AddNotebook,
-    'add-note': AddNote
+    'add-note': AddNote,
+    'notebook-list': NotebookList,
+    'note-list': NoteList,
+    'note': Note,
+    'toolbar': Toolbar,
+    'notez-modal': Modal
   },
 
   methods: {
-    ...mapMutations(['SET_NOTEBOOKS', 'DELETE_NOTEBOOK', 'SET_NOTES', 'DELETE_NOTE', 'HIDE_MODAL', 'SHOW_MODAL']),
+    ...mapMutations(['SET_NOTEBOOKS', 'DELETE_NOTEBOOK', 'SET_NOTES', 'DELETE_NOTE', 'SET_CURRENT_NOTEBOOK', 'SET_CURRENT_NOTE', 'HIDE_MODAL', 'SHOW_MODAL']),
 
     deleteNotebook (e) {
       let notebookId = e.target.getAttribute('notebookid')
@@ -92,26 +58,21 @@ export default {
       })
     },
 
-    openNotebook (e) {
-      let notebookId = e.target.getAttribute('notebookid')
-      this.currentNotebookIndex = parseInt(notebookId)
-    },
-
     resetNotebooks (e) {
-      this.currentNotebookIndex = -1
+      this.SET_CURRENT_NOTEBOOK(-1)
     },
 
     openNote (e) {
       let noteId = e.target.getAttribute('noteid')
-      this.currentNoteIndex = parseInt(noteId)
+      this.SET_CURRENT_NOTE(noteId)
     },
 
     resetNotes (e) {
-      this.currentNoteIndex = -1
+      this.SET_CURRENT_NOTE(-1)
     },
 
     saveNote () {
-      let noteId = this.currentNoteIndex
+      let noteId = this.currentNoteId
       axios({
         method: 'patch',
         url: `/api/note/${noteId}`,
@@ -153,32 +114,30 @@ export default {
   },
 
   computed: {
-    ...mapState(['isLoggedIn', 'showModal', 'notebooks', 'notes']),
+    ...mapState(['isLoggedIn', 'showModal', 'notebooks', 'notes', 'currentTab', 'currentNotebookId', 'currentNoteId']),
 
     currentNotebook () {
-      return this.notebooks.filter(item => item.id === this.currentNotebookIndex)[0]
+      return this.notebooks.filter(item => item.id === this.currentNotebookId)[0]
     },
 
     currentNotes () {
-      return this.notes.filter(item => item.notebookid === this.currentNotebookIndex)
+      return this.notes.filter(item => item.notebookid === this.currentNotebookId)
     },
 
     currentNote () {
-      return this.notes.filter(item => item.id === this.currentNoteIndex)[0]
+      return this.notes.filter(item => item.id === this.currentNoteId)[0]
     }
   },
 
   data () {
     return {
-      warning: '',
-      currentNotebookIndex: -1,
-      currentNoteIndex: -1
+      warning: ''
     }
   },
 
   watch: {
-    currentNoteIndex () {
-      if (this.currentNoteIndex >= 0) {
+    currentNoteId () {
+      if (this.currentNoteId >= 0) {
         // let marked = this.marked
         setTimeout(() => {
           let markedDisplay = document.querySelector('div.markup')
@@ -224,6 +183,10 @@ export default {
 </script>
 
 <style>
+  div.dashboard {
+    display: grid;
+    grid-template-rows: 1fr min-content;
+  }
   ul {
     list-style: none;
     padding: none;

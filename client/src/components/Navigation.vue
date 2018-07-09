@@ -51,14 +51,13 @@ export default {
 <style>
   .main-nav {
     box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: baseline;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    min-height: 40px;
+    height: min-content;
     justify-content: space-between;
-    padding: 10px;
+    align-items: end;
+    padding: 0 10px;
     background: pink;
   }
   .main-nav > h1 {
@@ -67,6 +66,10 @@ export default {
   .main-nav > ul {
     list-style: none;
     display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
   }
   .main-nav > ul > li {
     padding: 0 5px;

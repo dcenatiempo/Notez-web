@@ -12,18 +12,18 @@
         <footer><slot name="header"></slot></footer>
       </div>
     </div>
-    <open-modal-btn @open-modal='open'>{{title}}</open-modal-btn>
+    <!-- <open-modal-btn @open-modal='open'>{{title}}</open-modal-btn> -->
   </div>
 </template>
 
 <script>
-import OpenModalBtn from './OpenModalBtn'
+// import OpenModalBtn from './OpenModalBtn'
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'Modal',
 
   components: {
-    'open-modal-btn': OpenModalBtn
+    // 'open-modal-btn': OpenModalBtn
   },
 
   // two way bindings
@@ -48,7 +48,6 @@ export default {
     },
 
     showModal: function () {
-      console.log('showModal')
       return this.modalList[this.dataTitle]
     }
 
@@ -58,14 +57,10 @@ export default {
   methods: {
     ...mapMutations(['HIDE_MODAL', 'SHOW_MODAL']),
     close (e) {
-      console.log('closing ' + this.dataTitle)
       this.HIDE_MODAL(this.dataTitle)
-      console.log(this.modalList)
     },
     open (e) {
-      console.log('opening ' + this.dataTitle)
       this.SHOW_MODAL(this.dataTitle)
-      console.log(this.modalList)
     }
   },
 

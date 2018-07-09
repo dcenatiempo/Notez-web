@@ -23,9 +23,6 @@ export default {
   created () {
     if (this.isLoggedIn) {
       router.push('/dashboard')
-    } else {
-      console.log('registering modals')
-      this.REGISTER_MODAL('Login')
     }
   },
 

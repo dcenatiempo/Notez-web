@@ -42,9 +42,12 @@ body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  padding-top: 60px;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 button {
   border: none;

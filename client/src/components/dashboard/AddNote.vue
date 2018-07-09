@@ -11,13 +11,7 @@ import { mapMutations, mapState } from 'vuex'
 export default {
   name: 'AddNote',
 
-  props: {
-    notebookId: {
-      type: Number,
-      required: true,
-      default: -1
-    }
-  },
+  props: {},
 
   data () {
     return {
@@ -27,7 +21,8 @@ export default {
 
   computed: {
     ...mapState({
-      'addNoteModalState': state => state.modalList['add-note']
+      'addNoteModalState': state => state.modalList['add-note'],
+      'notebookId': state => state.currentNotebookId
     })
   },
 

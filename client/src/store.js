@@ -10,8 +10,9 @@ export default new Vuex.Store({
     modalList: {'register': 'false', 'login': 'false', 'add-notebook': 'false', 'add-note': 'false'},
     notebooks: [],
     notes: [],
-    currentNotebook: -1,
-    currentNote: -1
+    currentTab: 'main', // 'main', 'notebook', 'note'
+    currentNotebookId: -1,
+    currentNoteId: -1
   },
 
   mutations: {
@@ -49,6 +50,15 @@ export default new Vuex.Store({
     },
     DELETE_NOTE (state, payload) {
       state.notes = state.notes.filter(item => item.id !== parseInt(payload))
+    },
+    SET_CURRENT_NOTEBOOK (state, payload) {
+      state.currentNotebookId = parseInt(payload)
+    },
+    SET_CURRENT_NOTE (state, payload) {
+      state.currentNoteId = parseInt(payload)
+    },
+    SET_TAB (state, payload) {
+      state.currentTab = payload
     }
   },
   actions: {
