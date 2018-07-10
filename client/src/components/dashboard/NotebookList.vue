@@ -65,7 +65,7 @@ export default {
 <style>
 section.notebooks {
   background: rgb(241, 241, 241);
-  max-height: calc(100vh - 7em);
+  max-height: calc(100vh - 6.5em);
   overflow-y: scroll;
 }
 section.notebooks > h1 {
