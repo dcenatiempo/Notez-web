@@ -177,7 +177,8 @@ export default {
     width: 100%;
     height: 100%;
     border: none;
-    /* background: rgb(188, 214, 188); */
+    background: rgb(240, 240, 240);
+    font-family: monospace;
     overflow-y: scroll;
     max-height: calc(100vh - 9em);
   }
