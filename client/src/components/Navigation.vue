@@ -53,8 +53,7 @@ export default {
     box-sizing: border-box;
     display: grid;
     grid-template-columns: min-content 1fr;
-    min-height: 40px;
-    height: min-content;
+    height: 3em;
     justify-content: space-between;
     align-items: end;
     padding: 0 10px;

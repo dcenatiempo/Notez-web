@@ -110,7 +110,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['SET_TAB', 'SET_NOTEBOOKS', 'DELETE_NOTEBOOK', 'SET_NOTES', 'DELETE_NOTE', 'HIDE_MODAL', 'SHOW_MODAL']),
+    ...mapMutations(['SET_TAB', 'SET_NOTEBOOKS', 'DELETE_NOTEBOOK', 'SET_NOTES', 'DELETE_NOTE', 'HIDE_MODAL', 'SHOW_MODAL', 'TOGGLE_MARKDOWN']),
 
     clickActionBtn (e) {
       if (this.currentTab === 'main') {
@@ -119,6 +119,7 @@ export default {
         this.SHOW_MODAL('add-note')
       } else if (this.currentTab === 'note') {
         console.log('switching views')
+        this.TOGGLE_MARKDOWN()
       }
     },
 
@@ -143,7 +144,7 @@ export default {
     justify-content: space-around;
     align-items: center;
     background: pink;
-    min-height: 40px;
+    height: 3.5em;
   }
   button.icon > svg {
     pointer-events: none;

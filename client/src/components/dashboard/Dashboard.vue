@@ -18,7 +18,6 @@
 
 <script>
 import axios from 'axios'
-import marked from 'marked'
 import { mapState, mapMutations } from 'vuex'
 import router from '@/router'
 import AddNotebook from './AddNotebook'
@@ -105,11 +104,6 @@ export default {
 
     noteCount (notebookId) {
       return this.notes.filter(item => item.notebookid === notebookId).length
-    },
-
-    markItUp (e) {
-      let markedDisplay = document.querySelector('div.markup')
-      markedDisplay.innerHTML = marked(this.currentNote.data.content)
     }
   },
 
@@ -135,22 +129,6 @@ export default {
     }
   },
 
-  watch: {
-    currentNoteId () {
-      if (this.currentNoteId >= 0) {
-        // let marked = this.marked
-        setTimeout(() => {
-          let markedDisplay = document.querySelector('div.markup')
-          markedDisplay.innerHTML = marked(this.currentNote.data.content)
-        }, 0)
-      }
-    }
-  },
-
-  beforeCreated () {
-
-  },
-
   created () {
     if (!this.isLoggedIn) {
       router.push('/')
@@ -173,10 +151,6 @@ export default {
         console.log(error)
         this.warning = error
       })
-      marked.setOptions({
-        renderer: new marked.Renderer(),
-        gfm: true
-      })
     }
   }
 }
@@ -186,14 +160,5 @@ export default {
   div.dashboard {
     display: grid;
     grid-template-rows: 1fr min-content;
-  }
-  ul {
-    list-style: none;
-    padding: none;
-  }
-  textarea {
-    width: 90%;
-    height: 400px;
-    border: none;
   }
 </style>
