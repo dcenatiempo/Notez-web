@@ -124,19 +124,6 @@ export default {
     }
   },
 
-  created () {
-    // marked.setOptions({
-    //   renderer: new marked.Renderer(),
-    //   gfm: true
-    // })
-    // console.log(marked)
-    // console.log(turndownPluginGfm)
-    // var gfm = turndownPluginGfm.gfm
-    // var turndownService = new TurndownService()
-    // turndownService.use(gfm)
-    // console.log(turndownService.turndown('<h2>Hello</h2>'))
-  },
-
   mounted () {
     let markedDisplay = document.querySelector('div.markdown')
     setTimeout(() => {
