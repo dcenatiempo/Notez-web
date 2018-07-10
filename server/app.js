@@ -29,7 +29,7 @@ if (app.get('env') === 'production') {
   sess.cookie.secure = true // serve secure cookies
 } 
 app.use(session(sess))
-
+app.get('/dashboard', (req, res) => res.redirect('/'))
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
