@@ -2,7 +2,7 @@
   <div class="home">
     <h1>Notez is a markdown note app</h1>
     <p>Organize markdown notes into notebooks. View/Edit on any device!</p>
-    <p>Markdown is a lightweight and easy-to-use syntax for styling all forms of writing. <a href='https://guides.github.com/features/mastering-markdown/' targer='_blank' >Learn more about markdown here.</a></p>
+    
     <div v-if='!isLoggedIn' class="get-started">
       <button v-on:click='showLogin'>Login</button>
       <button v-on:click='showRegister'>Register</button>
@@ -13,6 +13,7 @@
         <notez-login></notez-login>
       </notez-modal>
     </div>
+    <p>Markdown is a lightweight and easy-to-use syntax for styling all forms of writing. <a href='https://guides.github.com/features/mastering-markdown/' targer='_blank' >Learn more about markdown here.</a></p>
   </div>
 </template>
 
@@ -57,6 +58,7 @@ export default {
 <style scoped>
 div.home {
   padding: 10px;
+  overflow-y: auto;
 }
 h1, h2 {
   font-weight: normal;
