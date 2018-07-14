@@ -1,6 +1,6 @@
 <template>
   <section class='note'>
-    <h2>{{currentNotebook.data.title + ": " + currentNote.data.title}}</h2>
+    <h1><input v-model='currentNote.data.title'></h1>
     <textarea class='turndown'
       :hidden='viewMarkdown'
       v-model='currentNote.data.content'
@@ -152,10 +152,18 @@ export default {
   section.note {
     display: flex;
     flex-flow: column nowrap;
+    background: rgb(241, 241, 241);
   }
-  section.note > h2 {
-    margin: .4em;
-    font-size: 1.2em;
+  section.note > h1 {
+     padding-left: 0.5em;
+  }
+  section.note > h1 input {
+    width: calc(100% - .5em);
+    border: none;
+    background: transparent;
+    font-size: 1.5em;
+    color: #2c3e50;
+    font: inherit;
   }
   textarea.turndown {
     box-sizing: border-box;
@@ -164,18 +172,19 @@ export default {
     width: 100%;
     height: 100%;
     border: none;
-    background: rgb(240, 240, 240);
+    background: white;
     font-family: monospace;
     overflow-y: scroll;
-    max-height: calc(100vh - 9em);
+    max-height: calc(100vh - 179px);
+    resize: none;
   }
   div.markdown {
     box-sizing: border-box;
     padding: 0 1em;
     width: 100%;
     height: 100%;
-    /* background: rgb(155, 213, 236); */
+    background: white;
     overflow-y: scroll;
-    max-height: calc(100vh - 9em);
+    max-height: calc(100vh - 179px);
   }
 </style>

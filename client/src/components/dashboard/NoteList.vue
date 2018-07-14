@@ -1,6 +1,6 @@
 <template>
   <section class='notes'>
-    <h1>Notebook: {{currentNotebook.data.title}}</h1>
+    <h1><input v-model='currentNotebook.data.title'></h1>
     <ul>
       <li v-for='note in currentNotes' :key='note.id' v-bind:noteid='note.id' v-on:click='openNote'>
         <h3>{{note.data.title}}</h3>
@@ -98,6 +98,14 @@ section.notes {
 }
 section.notes > h1 {
   padding-left: 0.5em;
+}
+section.notes > h1 input {
+  width: calc(100% - .5em);
+  border: none;
+  background: transparent;
+  font-size: 1.5em;
+  color: #2c3e50;
+  font: inherit;
 }
 section.notes > ul {
   display: grid;
