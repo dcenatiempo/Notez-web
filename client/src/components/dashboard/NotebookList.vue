@@ -70,6 +70,7 @@ section.notebooks {
 }
 section.notebooks > h1 {
   padding-left: 0.5em;
+  font-size: 1.5em;
 }
 section.notebooks > ul {
   display: grid;

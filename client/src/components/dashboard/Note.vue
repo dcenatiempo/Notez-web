@@ -162,6 +162,7 @@ export default {
     border: none;
     background: transparent;
     font-size: 1.5em;
+    padding: 0;
     color: #2c3e50;
     font: inherit;
   }
