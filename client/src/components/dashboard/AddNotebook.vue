@@ -64,5 +64,11 @@ export default {
 </script>
 
 <style>
-
+form.add-notebook {
+  display: flex;
+  flex-flow: column nowrap;
+}
+form.add-notebook input {
+  margin-bottom: 10px;
+}
 </style>

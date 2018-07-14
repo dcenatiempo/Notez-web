@@ -67,5 +67,11 @@ export default {
 </script>
 
 <style>
-
+form.add-note {
+  display: flex;
+  flex-flow: column nowrap;
+}
+form.add-note input {
+  margin-bottom: 10px;
+}
 </style>

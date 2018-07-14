@@ -71,8 +71,10 @@
         </g>
         </svg>
     </button>
-    <button class='icon' id='new-btn' v-on:click='clickActionBtn'>
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 24 24" xml:space="preserve">
+    <button class='icon big' id='new-btn' v-on:click='clickActionBtn' v-bind:class="{ rotate: rotateIcon }">
+      <svg 
+        v-show='currentTab!=="note"'
+        xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" xml:space="preserve">
         <g id="Bounding_Boxes">
           <g id="ui_x5F_spec_x5F_header_copy_3" display="none">
           </g>
@@ -87,6 +89,12 @@
           </g>
         </g>
       </svg>
+      <svg
+        v-show='currentTab==="note"'
+        xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24">
+        <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+    </svg>
     </button>
   </footer>
 </template>
@@ -120,6 +128,7 @@ export default {
       } else if (this.currentTab === 'note') {
         console.log('switching views')
         this.TOGGLE_MARKDOWN()
+        this.rotateIcon = !this.rotateIcon
       }
     },
 
@@ -132,6 +141,12 @@ export default {
       } else if (id === 'note-btn') {
         this.SET_TAB('note')
       }
+    }
+  },
+
+  data: function () {
+    return {
+      rotateIcon: true
     }
   }
 
@@ -148,6 +163,7 @@ export default {
   }
   button.icon > svg {
     pointer-events: none;
+    transform: rotateZ(0deg);
   }
   button.icon {
     border: none;
@@ -156,6 +172,9 @@ export default {
     width: 35px;
     fill: white;
     opacity: 0.5;
+  }
+  button.big {
+    transition: transform ease 100ms;
   }
   button.icon[disabled] {
     fill: white;
@@ -170,6 +189,8 @@ export default {
     width: 55px;
     opacity: 1;
     fill: white;
-
+  }
+  .rotate {
+    transform: rotateZ(90deg);
   }
 </style>
