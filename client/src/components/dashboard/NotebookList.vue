@@ -1,5 +1,5 @@
 <template>
-  <section class='notebooks'>
+  <section v-bind:class='{reverse: isReverse}' class='notebooks'>
     <h1>My Notebooks</h1>
     <ul>
       <li
@@ -48,7 +48,7 @@ export default {
         this.interval = setInterval(() => {
           this.count++
           console.log(this.count)
-          if (this.count >= 4) {
+          if (this.count >= 8) {
             this.deleteId = e.target.getAttribute('notebookid')
             this.SHOW_MODAL('delete-notebook')
             this.stop()
@@ -65,7 +65,12 @@ export default {
   },
 
   computed: {
-    ...mapState(['currentNoteBook', 'currentNote', 'notebooks', 'notes'])
+    ...mapState(['currentNoteBook', 'currentNote', 'notebooks', 'notes', 'lastTab']),
+
+    isReverse () {
+      if (this.lastTab === null) return false
+      return true
+    }
   },
 
   data () {
@@ -106,6 +111,10 @@ section.notebooks > ul > li {
   flex-flow: column nowrap;
   position: relative;
   box-shadow: 0 5px 10px -4px rgba(90, 90, 90, 0.2);
+}
+section.notebooks.reverse >h1,
+section.notebooks.reverse > ul {
+  animation: slide-right 200ms ease-out 1;
 }
 section.notebooks > ul > li:active {
   box-shadow: none;

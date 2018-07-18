@@ -82,7 +82,7 @@ export default {
         this.interval = setInterval(() => {
           this.count++
           console.log(this.count)
-          if (this.count >= 4) {
+          if (this.count >= 8) {
             this.deleteId = e.target.getAttribute('noteid')
             this.SHOW_MODAL('delete-note')
             this.stop()
