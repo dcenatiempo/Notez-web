@@ -72,7 +72,7 @@
         </svg>
     </button>
     <button class='icon big' id='new-btn' v-on:click='clickActionBtn' v-bind:class="{ rotate: rotateIcon }">
-      <svg 
+      <svg
         v-show='currentTab!=="note"'
         xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" xml:space="preserve">
         <g id="Bounding_Boxes">

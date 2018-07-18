@@ -2,42 +2,36 @@
   <section class='notebooks'>
     <h1>My Notebooks</h1>
     <ul>
-      <li v-for='notebook in notebooks' :key='notebook.id' v-bind:notebookid='notebook.id'
-          v-on:click='openNotebook'>
+      <li
+        v-for='notebook in notebooks'
+        :key='notebook.id'
+        v-bind:notebookid='notebook.id'
+        v-on:click='openNotebook'
+        @mousedown='start' @mouseleave='stop' @mouseup='stop' @touchstart='start' @touchend='stop' @touchcancel='stop'>
         <h3>{{notebook.data.title}}</h3>
         <span> ({{noteCount(notebook.id)}}) Notes </span>
-        <!-- <button class="icon"
-          v-bind:notebookid='notebook.id'
-          v-on:click='deleteNotebook'>
-          x
-        </button> -->
       </li>
     </ul>
+    <notez-modal :title="'Delete Notebook'">
+      <delete-notebook :deleteId="deleteId"></delete-notebook>
+    </notez-modal>
   </section>
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState, mapMutations } from 'vuex'
+import DeleteNotebook from './DeleteNotebook'
+import Modal from '@/components/modal/Modal'
 export default {
   name: 'Dashboard',
 
-  methods: {
-    ...mapMutations(['DELETE_NOTEBOOK', 'SET_TAB', 'SET_CURRENT_NOTEBOOK']),
+  components: {
+    'delete-notebook': DeleteNotebook,
+    'notez-modal': Modal
+  },
 
-    deleteNotebook (e) {
-      let notebookId = e.target.getAttribute('notebookid')
-      axios({
-        method: 'delete',
-        url: `/api/notebook/${notebookId}`
-      }).then((response) => {
-        if (response.status === 200) {
-          this.DELETE_NOTEBOOK(notebookId)
-        }
-      }).catch((err) => {
-        this.warning = err
-      })
-    },
+  methods: {
+    ...mapMutations(['DELETE_NOTEBOOK', 'SET_TAB', 'SET_CURRENT_NOTEBOOK', 'SHOW_MODAL']),
 
     openNotebook (e) {
       let notebookId = e.target.getAttribute('notebookid')
@@ -47,6 +41,26 @@ export default {
 
     noteCount (notebookId) {
       return this.notes.filter(item => item.notebookid === notebookId).length
+    },
+
+    start (e) {
+      if (!this.interval) {
+        this.interval = setInterval(() => {
+          this.count++
+          console.log(this.count)
+          if (this.count >= 4) {
+            this.deleteId = e.target.getAttribute('notebookid')
+            this.SHOW_MODAL('delete-notebook')
+            this.stop()
+          }
+        }, 100)
+      }
+    },
+
+    stop () {
+      clearInterval(this.interval)
+      this.interval = false
+      this.count = 0
     }
   },
 
@@ -56,7 +70,10 @@ export default {
 
   data () {
     return {
-      warning: ''
+      warning: '',
+      count: 0,
+      interval: false,
+      deleteId: null
     }
   }
 }

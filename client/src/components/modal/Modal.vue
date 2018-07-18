@@ -12,7 +12,6 @@
         <footer><slot name="header"></slot></footer>
       </div>
     </div>
-    <!-- <open-modal-btn @open-modal='open'>{{title}}</open-modal-btn> -->
   </div>
 </template>
 

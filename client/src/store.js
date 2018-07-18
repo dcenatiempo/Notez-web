@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     email: null,
     isLoggedIn: false,
-    modalList: {'register': 'false', 'login': 'false', 'add-notebook': 'false', 'add-note': 'false'},
+    modalList: {'register': 'false', 'login': 'false', 'add-notebook': 'false', 'add-note': 'false', 'delete-notebook': 'false', 'delete-note': 'false'},
     notebooks: [],
     notes: [],
     currentTab: 'main', // 'main', 'notebook', 'note'

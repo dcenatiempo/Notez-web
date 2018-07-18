@@ -2,7 +2,6 @@
   <div class="home">
     <h1>Notez is a markdown note app</h1>
     <p>Organize markdown notes into notebooks. View/Edit on any device!</p>
-    
     <div v-if='!isLoggedIn' class="get-started">
       <button v-on:click='showLogin'>Login</button>
       <button v-on:click='showRegister'>Register</button>

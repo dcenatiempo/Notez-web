@@ -2,23 +2,38 @@
   <section class='notes'>
     <h1><input v-model='currentNotebook.data.title'></h1>
     <ul>
-      <li v-for='note in currentNotes' :key='note.id' v-bind:noteid='note.id' v-on:click='openNote'>
+      <li
+        v-for='note in currentNotes'
+        :key='note.id'
+        v-bind:noteid='note.id'
+        v-on:click='openNote'
+        @mousedown='start' @mouseleave='stop' @mouseup='stop' @touchstart='start' @touchend='stop' @touchcancel='stop'>
         <h3>{{note.data.title}}</h3>
         <span class='content' v-html='markIt(note.data.content)'></span>
       </li>
     </ul>
+    <notez-modal :title="'Delete Note'">
+      <delete-note :deleteId="deleteId"></delete-note>
+    </notez-modal>
   </section>
 </template>
 
 <script>
 import axios from 'axios'
 import { mapState, mapMutations } from 'vuex'
+import DeleteNote from './DeleteNote'
+import Modal from '@/components/modal/Modal'
 import marked from 'marked'
 export default {
   name: 'NoteList',
 
+  components: {
+    'delete-note': DeleteNote,
+    'notez-modal': Modal
+  },
+
   methods: {
-    ...mapMutations(['SET_TAB', 'SET_CURRENT_NOTE', 'SET_NOTEBOOKS', 'DELETE_NOTEBOOK', 'SET_NOTES', 'DELETE_NOTE']),
+    ...mapMutations(['SET_TAB', 'SET_CURRENT_NOTE', 'DELETE_NOTE', 'SHOW_MODAL']),
 
     resetNotebooks (e) {
       this.currentNotebookId = -1
@@ -62,6 +77,26 @@ export default {
       })
     },
 
+    start (e) {
+      if (!this.interval) {
+        this.interval = setInterval(() => {
+          this.count++
+          console.log(this.count)
+          if (this.count >= 4) {
+            this.deleteId = e.target.getAttribute('noteid')
+            this.SHOW_MODAL('delete-note')
+            this.stop()
+          }
+        }, 100)
+      }
+    },
+
+    stop () {
+      clearInterval(this.interval)
+      this.interval = false
+      this.count = 0
+    },
+
     markIt (text) {
       return marked(text)
     }
@@ -81,7 +116,10 @@ export default {
 
   data () {
     return {
-      warning: ''
+      warning: '',
+      count: 0,
+      interval: false,
+      deleteId: null
     }
   },
 

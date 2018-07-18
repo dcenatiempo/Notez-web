@@ -22,6 +22,7 @@ import { mapState, mapMutations } from 'vuex'
 import router from '@/router'
 import AddNotebook from './AddNotebook'
 import AddNote from './AddNote'
+import DeleteNotebook from './DeleteNotebook'
 import Toolbar from '@/components/toolbar/Toolbar'
 import NotebookList from './NotebookList'
 import NoteList from './NoteList'
@@ -33,6 +34,7 @@ export default {
   components: {
     'add-notebook': AddNotebook,
     'add-note': AddNote,
+    'delete-notebook': DeleteNotebook,
     'notebook-list': NotebookList,
     'note-list': NoteList,
     'note': Note,
