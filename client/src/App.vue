@@ -72,4 +72,16 @@ button.icon {
   padding: 0px;
   border-radius: 50%;
 }
+@keyframes slide-left {
+    from {transform: translateX(100vw);}
+    to {transform: translateX(0vw);}
+}
+@keyframes slide-right {
+    from {transform: translateX(-100vw);}
+    to {transform: translateX(0vw);}
+}
+/* @keyframes slide-up {
+    from {transform: translateY(100vw);}
+    to {transform: translateX(0vw);}
+} */
 </style>

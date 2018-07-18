@@ -20,9 +20,8 @@
 import axios from 'axios'
 import { mapState, mapMutations } from 'vuex'
 import router from '@/router'
-import AddNotebook from './AddNotebook'
-import AddNote from './AddNote'
-import DeleteNotebook from './DeleteNotebook'
+import AddNotebook from '@/components/modal/AddNotebook'
+import AddNote from '@/components/modal/AddNote'
 import Toolbar from '@/components/toolbar/Toolbar'
 import NotebookList from './NotebookList'
 import NoteList from './NoteList'
@@ -34,7 +33,6 @@ export default {
   components: {
     'add-notebook': AddNotebook,
     'add-note': AddNote,
-    'delete-notebook': DeleteNotebook,
     'notebook-list': NotebookList,
     'note-list': NoteList,
     'note': Note,
@@ -43,21 +41,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['SET_NOTEBOOKS', 'DELETE_NOTEBOOK', 'SET_NOTES', 'DELETE_NOTE', 'SET_CURRENT_NOTEBOOK', 'SET_CURRENT_NOTE', 'HIDE_MODAL', 'SHOW_MODAL']),
-
-    deleteNotebook (e) {
-      let notebookId = e.target.getAttribute('notebookid')
-      axios({
-        method: 'delete',
-        url: `/api/notebook/${notebookId}`
-      }).then((response) => {
-        if (response.status === 200) {
-          this.DELETE_NOTEBOOK(notebookId)
-        }
-      }).catch((err) => {
-        this.warning = err
-      })
-    },
+    ...mapMutations(['SET_NOTEBOOKS', 'SET_NOTES', 'SET_CURRENT_NOTEBOOK', 'SET_CURRENT_NOTE', 'HIDE_MODAL', 'SHOW_MODAL']),
 
     resetNotebooks (e) {
       this.SET_CURRENT_NOTEBOOK(-1)
@@ -84,20 +68,6 @@ export default {
       }).then((response) => {
         if (response.status === 200) {
           console.log(response.data)
-        }
-      }).catch((err) => {
-        this.warning = err
-      })
-    },
-
-    deleteNote (e) {
-      let noteId = e.target.getAttribute('noteid')
-      axios({
-        method: 'delete',
-        url: `/api/note/${noteId}`
-      }).then((response) => {
-        if (response.status === 200) {
-          this.DELETE_NOTE(noteId)
         }
       }).catch((err) => {
         this.warning = err
@@ -162,5 +132,6 @@ export default {
   div.dashboard {
     display: grid;
     grid-template-rows: 1fr min-content;
+    background: rgb(241, 241, 241);
   }
 </style>

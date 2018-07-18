@@ -146,16 +146,17 @@ export default {
 
 <style>
   ul {
-    list-style: none;
-    padding: none;
+    /* padding: none; */
   }
   section.note {
     display: flex;
     flex-flow: column nowrap;
     background: rgb(241, 241, 241);
+    animation: slide-left 200ms ease-out 1;
   }
   section.note > h1 {
-     padding-left: 0.5em;
+    padding-left: 0.5em;
+    animation: slide-left 200ms ease-out 1;
   }
   section.note > h1 input {
     width: calc(100% - .5em);
@@ -178,6 +179,7 @@ export default {
     overflow-y: scroll;
     max-height: calc(100vh - 179px);
     resize: none;
+    animation: slide-up 200ms ease-out 1;
   }
   div.markdown {
     box-sizing: border-box;
@@ -187,5 +189,6 @@ export default {
     background: white;
     overflow-y: scroll;
     max-height: calc(100vh - 179px);
+    animation: slide-up 200ms ease-out 1;
   }
 </style>

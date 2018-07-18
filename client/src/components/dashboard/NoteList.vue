@@ -1,5 +1,5 @@
 <template>
-  <section class='notes'>
+  <section v-bind:class='{reverse: isReverse}' class='notes'>
     <h1><input v-model='currentNotebook.data.title'></h1>
     <ul>
       <li
@@ -21,7 +21,7 @@
 <script>
 import axios from 'axios'
 import { mapState, mapMutations } from 'vuex'
-import DeleteNote from './DeleteNote'
+import DeleteNote from '@/components/modal/DeleteNote'
 import Modal from '@/components/modal/Modal'
 import marked from 'marked'
 export default {
@@ -103,7 +103,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['currentNotebookId', 'currentNoteId', 'notebooks', 'notes']),
+    ...mapState(['currentNotebookId', 'currentNoteId', 'notebooks', 'notes', 'lastTab']),
 
     currentNotebook () {
       return this.notebooks.filter(item => item.id === this.currentNotebookId)[0]
@@ -111,6 +111,11 @@ export default {
 
     currentNotes () {
       return this.notes.filter(item => item.notebookid === this.currentNotebookId)
+    },
+
+    isReverse () {
+      if (this.lastTab === 'main') return false
+      else if (this.lastTab === 'note') return true
     }
   },
 
@@ -133,9 +138,11 @@ section.notes {
   background: rgb(241, 241, 241);
   max-height: calc(100vh - 6.5em);
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 section.notes > h1 {
   padding-left: 0.5em;
+  animation: slide-left 200ms ease-out 1;
 }
 section.notes > h1 input {
   width: calc(100% - .5em);
@@ -152,6 +159,11 @@ section.notes > ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  animation: slide-left 200ms ease-out 1;
+}
+section.notes.reverse >h1,
+section.notes.reverse > ul {
+  animation: slide-right 200ms ease-out 1;
 }
 section.notes > ul > li {
   background: white;
@@ -159,6 +171,11 @@ section.notes > ul > li {
   display: flex;
   flex-flow: column nowrap;
   position: relative;
+  box-shadow:0 5px 10px -4px rgba(90, 90, 90, 0.2);
+}
+section.notes > ul > li:active {
+  /* background: rgb(255, 232, 236); */
+  box-shadow: none;
 }
 section.notes > ul > li::before {
   content: '';

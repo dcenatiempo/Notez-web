@@ -11,6 +11,7 @@ export default new Vuex.Store({
     notebooks: [],
     notes: [],
     currentTab: 'main', // 'main', 'notebook', 'note'
+    lastTab: null,
     currentNotebookId: -1,
     currentNoteId: -1,
     viewMarkdown: true
@@ -59,6 +60,7 @@ export default new Vuex.Store({
       state.currentNoteId = parseInt(payload)
     },
     SET_TAB (state, payload) {
+      state.lastTab = state.currentTab
       state.currentTab = payload
     },
     TOGGLE_MARKDOWN (state) {

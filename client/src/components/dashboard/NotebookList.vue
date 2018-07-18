@@ -20,7 +20,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import DeleteNotebook from './DeleteNotebook'
+import DeleteNotebook from '@/components/modal/DeleteNotebook'
 import Modal from '@/components/modal/Modal'
 export default {
   name: 'Dashboard',
@@ -84,10 +84,12 @@ section.notebooks {
   background: rgb(241, 241, 241);
   max-height: calc(100vh - 6.5em);
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 section.notebooks > h1 {
   padding-left: 0.5em;
   font-size: 1.5em;
+  animation: slide-right 200ms ease-out 1;
 }
 section.notebooks > ul {
   display: grid;
@@ -95,6 +97,7 @@ section.notebooks > ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  animation: slide-right 200ms ease-out 1;
 }
 section.notebooks > ul > li {
   background: white;
@@ -102,6 +105,10 @@ section.notebooks > ul > li {
   display: flex;
   flex-flow: column nowrap;
   position: relative;
+  box-shadow: 0 5px 10px -4px rgba(90, 90, 90, 0.2);
+}
+section.notebooks > ul > li:active {
+  box-shadow: none;
 }
 section.notebooks > ul > li::after {
   content: '';
@@ -121,7 +128,6 @@ section.notebooks > ul > li::after {
 section.notebooks > ul > li h3{
   margin: 0;
 }
-
 section.notebooks > ul > li > * {
   pointer-events: none;
 }
